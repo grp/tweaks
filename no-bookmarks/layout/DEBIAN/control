@@ -1,0 +1,9 @@
+Package: com.chpwn.no-bookmarks
+Name: no-bookmarks
+Depends: mobilesubstrate
+Version: 0.1
+Architecture: iphoneos-arm
+Description: 
+Maintainer: Xuzz
+Author: Xuzz
+Section: Tweaks
