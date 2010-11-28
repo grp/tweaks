@@ -1,0 +1,9 @@
+Package: com.chpwn.no-folder-badge
+Name: no-folder-badge
+Depends: mobilesubstrate
+Version: 0.1
+Architecture: iphoneos-arm
+Description: 
+Maintainer: Xuzz
+Author: Xuzz
+Section: Tweaks

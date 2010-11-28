@@ -1,0 +1,9 @@
+Package: com.chpwn.nodots
+Name: No Dots
+Depends: mobilesubstrate
+Version: 1.0
+Architecture: iphoneos-arm
+Description: No page dots!
+Maintainer: chpwn
+Author: chpwn
+Section: Tweaks
