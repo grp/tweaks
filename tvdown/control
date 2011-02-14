@@ -1,0 +1,8 @@
+Package: com.chpwn.tvdown
+Name: tvdown
+Depends: mobilesubstrate
+Version: 1.0
+Architecture: iphoneos-arm
+Description: Shut down like a TV! (And Android 2.3.)
+Maintainer: chpwn
+Author: chpwn
