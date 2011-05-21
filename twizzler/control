@@ -1,0 +1,14 @@
+Author: chpwn <tweak@chpwn.com>
+Maintainer: BigBoss <bigboss@thebigboss.org>
+Name: Twizzler
+Package: com.chpwn.twizzler
+Section: Tweaks
+Depends: mobilesubstrate
+Version: 1.0.4
+Architecture: iphoneos-arm
+Description: Remove #dickbar from Twitter 3.3.
+Depiction: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=twizzlerData
+Homepage: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=twizzlerData
+Sponsor: thebigboss.org <http://thebigboss.org>
+Tag: purpose::extension
+dev: chpwn
