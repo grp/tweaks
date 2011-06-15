@@ -63,7 +63,7 @@ static NSArray *Make(NSString *previous, NSString *next) {
         [appstack removeLastObject];
         downwards = YES;
     } else {
-        [appstack addObject:Make([[fromapp displayIdentifier] copy], [[toapp displayIdentifier] copy])];
+        [appstack addObject:Make([fromapp displayIdentifier], [toapp displayIdentifier])];
         downwards = NO;
     }
 
