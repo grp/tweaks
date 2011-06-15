@@ -1,0 +1,5 @@
+{
+    title = "slideapp";
+    description = "like a back button. but better.";
+    "compatible-modes" = ("springboard", "application");
+}

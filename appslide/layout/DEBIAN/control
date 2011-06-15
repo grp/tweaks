@@ -1,0 +1,16 @@
+Author: chpwn <tweak@chpwn.com>
+Maintainer: BigBoss <bigboss@thebigboss.org>
+Name: appslide
+Package: com.chpwn.appslide
+Section: Tweaks
+Pre-Depends: firmware (>= 4.2)
+Depends: libactivator, mobilesubstrate
+Version: 1.0
+Architecture: iphoneos-arm
+Description: like a back button. but better.
+Depiction: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=appslideData
+Homepage: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=appslideData
+Icon: file:///Library/Activator/Listeners/com.chpwn.appslide/Icon-small.png
+Sponsor: thebigboss.org <http://thebigboss.org>
+Tag: purpose::extension
+dev: chpwn
