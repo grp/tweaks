@@ -1,0 +1,9 @@
+Package: com.chpwn.splitresizer
+Name: SplitResizer
+Depends: mobilesubstrate
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: An awesome MobileSubstrate tweak!
+Maintainer: Grant Paul
+Author: Grant Paul
+Section: Tweaks
