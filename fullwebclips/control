@@ -1,0 +1,14 @@
+Author: chpwn <support@chpwn.com>
+Maintainer: BigBoss <bigboss@thebigboss.org>
+Name: Full WebCLips
+Package: com.chpwn.fullwebclips
+Section: Tweaks
+Depends: mobilesubstrate
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Decide if a web clip is fullscreen.
+Depiction: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=fullwebclipsData
+Homepage: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=fullwebclipsData
+Sponsor: thebigboss.org <http://thebigboss.org>
+Tag: purpose::extension
+dev: chpwn
