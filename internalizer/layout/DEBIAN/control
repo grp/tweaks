@@ -1,0 +1,14 @@
+Author: chpwn <support@chpwn.com>
+Maintainer: BigBoss <bigboss@thebigboss.org>
+Name: Internalizer
+Package: com.chpwn.internalizer
+Section: Tweaks
+Depends: mobilesubstrate, preferenceloader, firmware (>= 4.2.1)
+Version: 1.0.0.0
+Architecture: iphoneos-arm
+Description: AppleInternal-style lockscreen warnings.
+Depiction: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=internalizerData
+Homepage: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=internalizerData
+Sponsor: thebigboss.org <http://thebigboss.org>
+Tag: purpose::extension
+dev: chpwn

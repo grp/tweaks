@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>entry</key>
+	<dict>
+		<key>cell</key>
+		<string>PSLinkCell</string>
+		<key>icon</key>
+		<string>internalizer.png</string>
+		<key>label</key>
+		<string>Internalizer</string>
+	</dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Internalizer</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.chpwn.internalizer.prefs</string>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>default</key>
+			<string></string>
+			<key>defaults</key>
+			<string>com.chpwn.internalizer</string>
+			<key>key</key>
+			<string>InternalizerDeclaration</string>
+			<key>label</key>
+			<string>Declaration</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.chpwn.internalizer.prefs</string>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>default</key>
+			<string></string>
+			<key>defaults</key>
+			<string>com.chpwn.internalizer</string>
+			<key>key</key>
+			<string>InternalizerInstructions</string>
+			<key>label</key>
+			<string>Instructions</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.chpwn.internalizer.prefs</string>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>default</key>
+			<string></string>
+			<key>defaults</key>
+			<string>com.chpwn.internalizer</string>
+			<key>key</key>
+			<string>InternalizerContact</string>
+			<key>label</key>
+			<string>Contact</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>by chpwn</string>
+		</dict>
+	</array>
+	<key>title</key>
+	<string>Internalizer</string>
+</dict>
+</plist>
