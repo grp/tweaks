@@ -1,0 +1,15 @@
+Author: chpwn <support@chpwn.com>
+Maintainer: BigBoss <bigboss@thebigboss.org>
+Name: Switcherscape
+Package: com.chpwn.switcherscape
+Section: Tweaks
+Depends: mobilesubstrate, firmware (>= 4.2.1)
+Conflicts: gsc.ipad
+Version: 1.0
+Architecture: iphoneos-arm
+Description: Landscape app switcher, but free.
+Depiction: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=switcherscapeData
+Homepage: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=switcherscapeData
+Sponsor: thebigboss.org <http://thebigboss.org>
+Tag: purpose::extension
+dev: chpwn
