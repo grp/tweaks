@@ -1,0 +1,14 @@
+Author: chpwn <support@chpwn.com>
+Maintainer: BigBoss <bigboss@thebigboss.org>
+Name: Colloquy Tab Complete
+Package: com.chpwn.colloquy-tab-complete
+Section: Tweaks
+Depends: mobilesubstrate, firmware (>= 4.2.1)
+Version: 1.0
+Architecture: iphoneos-arm
+Description: Hardware tab complete for Colloquy.
+Depiction: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=colloquytabcompleteData
+Homepage: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=colloquytabcompleteData
+Sponsor: thebigboss.org <http://thebigboss.org>
+Tag: purpose::extension
+dev: chpwn
