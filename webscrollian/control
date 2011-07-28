@@ -1,0 +1,14 @@
+Author: chpwn <support@chpwn.com>
+Maintainer: BigBoss <bigboss@thebigboss.org>
+Name: Webscrollian
+Package: com.chpwn.webscrollian
+Section: Tweaks
+Depends: mobilesubstrate
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Faster scrolling for web content.
+Depiction: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=webscrollianData
+Homepage: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=webscrollianData
+Sponsor: thebigboss.org <http://thebigboss.org>
+Tag: purpose::extension
+dev: chpwn
