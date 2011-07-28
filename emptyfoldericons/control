@@ -1,0 +1,14 @@
+Author: chpwn <support@chpwn.com>
+Maintainer: BigBoss <bigboss@thebigboss.org>
+Name: Empty Folder Icons
+Package: com.chpwn.emptyfoldericons
+Section: Tweaks
+Depends: mobilesubstrate, firmware (>= 4.2.1)
+Version: 1.0
+Architecture: iphoneos-arm
+Description: Empty grid inside folder icons.
+Depiction: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=emptyfoldericonsData
+Homepage: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=emptyfoldericonsData
+Sponsor: thebigboss.org <http://thebigboss.org>
+Tag: purpose::extension
+dev: chpwn
