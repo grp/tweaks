@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>title</key>
+	<string>Five Icon Switcher</string>
+	<key>entry</key>
+	<dict>
+		<key>cell</key>
+		<string>PSLinkCell</string>
+		<key>icon</key>
+		<string>five-icon-switcher.png</string>
+		<key>label</key>
+		<string>Five Icon Switcher</string>
+	</dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Five Icon Switcher</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>default</key>
+			<integer>5</integer>
+			<key>detail</key>
+			<string>PSListItemsController</string>
+			<key>key</key>
+			<string>FISIconCount</string>
+			<key>label</key>
+			<string>Icons per Page</string>
+			<key>validTitles</key>
+			<array>
+				<string>One</string>
+				<string>Two</string>
+				<string>Three</string>
+				<string>Four</string>
+				<string>Five</string>
+				<string>Six</string>
+				<string>Seven</string>
+				<string>Eight</string>
+				<string>Nine</string>
+				<string>Ten</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<integer>1</integer>
+				<integer>2</integer>
+				<integer>3</integer>
+				<integer>4</integer>
+				<integer>5</integer>
+				<integer>6</integer>
+				<integer>7</integer>
+				<integer>8</integer>
+				<integer>9</integer>
+				<integer>10</integer>
+			</array>
+			<key>defaults</key>
+			<string>com.chpwn.five-icon-switcher</string>
+			<key>PostNotification</key>
+			<string>com.chpwn.five-icon-switcher.prefs</string>
+		</dict>
+		
+		<!-- Begin static text. -->
+		<dict>
+	      <key>cell</key>
+	      <string>PSGroupCell</string>
+	      <key>footerText</key>
+	      <string>Five Icon Switcher © 2010 Grant Paul.
+		
+Licensed under the BSD license at http://github.com/chpwn/five-icon-switcher.
+All contributions are welcome.</string>
+	    </dict>
+	    <dict>
+	      <key>cell</key>
+	      <string>PSGroupCell</string>
+	      <key>isStaticText</key>
+	      <string>true</string>
+	      <key>requiredCapabilities</key>
+	      <array>
+	        <dict>
+	          <key>wildcat</key>
+	          <false/>
+	          <key>voip</key>
+	          <false/>
+	        </dict>
+	      </array>
+	    </dict>
+	    <dict>
+	      <key>cell</key>
+	      <string>PSTitleValueCell</string>
+	      <key>label</key>
+	      <string>Five Icon Switcher © 2010 Grant Paul.
+		
+Licensed under the BSD license at http://github.com/chpwn/five-icon-switcher.
+All contributions are welcome.</string>
+	      <key>requiredCapabilities</key>
+	      <array>
+	        <dict>
+	          <key>wildcat</key>
+	          <false/>
+	          <key>voip</key>
+	          <false/>
+	        </dict>
+	      </array>
+	    </dict>
+		<!-- End static text. -->
+
+	</array>
+</dict>
+</plist>

@@ -1,0 +1,10 @@
+Package: com.chpwn.five-icon-switcher
+Name: Five Icon Switcher
+Pre-Depends: firmware (>= 4.0)
+Depends: mobilesubstrate
+Version: 1.1
+Architecture: iphoneos-arm
+Description: Five icons in the multitasking switcher!
+Maintainer: chpwn
+Author: chpwn
+Section: Tweaks
