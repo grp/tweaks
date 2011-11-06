@@ -1,8 +1,11 @@
 
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
 
 static int enabled = 1;
 static NSMutableArray *appstack = [[NSMutableArray alloc] init];
 static id toapp = nil;
+static id fromapp = nil;
 
 static void SlideToApp(NSString *identifier) {
     id app = [[objc_getClass("SBApplicationController") sharedInstance] applicationWithDisplayIdentifier:identifier];
@@ -30,16 +33,22 @@ static NSArray *Make(NSString *previous, NSString *next) {
 %end
 
 %hook SBUIController
-- (void)_beginAppToAppTransition:(id)appTransition to:(id)to {
-    // capture the to app here to avoid the weird
-    // issue below with the _toApplication ivar
+static void begintransition(id from, id to) {
+    fromapp = from;
     toapp = to;
+}
+- (void)_beginTransitionFromApp:(id)from toApp:(id)to {
+    begintransition(from, to);
+    %orig;
+}
+- (void)_beginAppToAppTransition:(id)from to:(id)to {
+    begintransition(from, to);
     %orig;
 }
 %end
 
 %hook SBAppDosadoView
-- (void)_beginTransition {
+static BOOL transition(id self) {
     if (enabled <= 0) {
         // after a non-enabled transition, drop all
         // state so we don't try and go back from that
@@ -48,14 +57,11 @@ static NSArray *Make(NSString *previous, NSString *next) {
         enabled = 1;
         [appstack removeAllObjects];
 
-        %orig;
-        return;
+        return YES;
     }
 
     UIView *from = MSHookIvar<UIView *>(self, "_fromView");
     UIView *to = MSHookIvar<UIView *>(self, "_toView");
-    id fromapp = MSHookIvar<id>(self, "_fromApplication");
-    //id toapp = MSHookIvar<id>(self, "_toApplication"); // why is this nil here?
 
     BOOL downwards = NO;
 
@@ -78,7 +84,11 @@ static NSArray *Make(NSString *previous, NSString *next) {
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.5];
     [UIView setAnimationDelegate:self];
-    [UIView setAnimationDidStopSelector:@selector(_animationDidStop:)];
+
+    if ([self respondsToSelector:@selector(_animationDidStop:)])
+        [UIView setAnimationDidStopSelector:@selector(_animationDidStop:)];
+    else if ([self respondsToSelector:@selector(animationDidStop:finished:)])
+        [UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:)];
 
     CGRect done;
     done.origin = CGPointMake(0, downwards ? [to bounds].size.height : 0);
@@ -89,6 +99,14 @@ static NSArray *Make(NSString *previous, NSString *next) {
 
     // reset enabled state for next time
     enabled = 1;
+
+    return NO;
+}
+- (void)beginTransition {
+    if (transition(self)) %orig;
+}
+- (void)_beginTransition {
+    if (transition(self)) %orig;
 }
 %end
 
