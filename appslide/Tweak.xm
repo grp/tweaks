@@ -33,9 +33,19 @@ static NSArray *Make(NSString *previous, NSString *next) {
 %end
 
 %hook SBUIController
+- (void)activateURLFromBulletinList:(id)bulletinList {
+    // don't slide in from notification center widgets
+    enabled -= 1;
+    %orig;
+}
+
 static void begintransition(id from, id to) {
-    fromapp = from;
-    toapp = to;
+    if (from != nil && to != nil) {
+        fromapp = from;
+        toapp = to;
+    } else {
+        enabled -= 1;
+    }
 }
 - (void)_beginTransitionFromApp:(id)from toApp:(id)to {
     begintransition(from, to);
@@ -127,7 +137,7 @@ static BOOL ignore = NO;
         return;
     }
 
-    if (Previous([appstack lastObject]) != nil) {
+    if ([appstack count] > 0 && Previous([appstack lastObject]) != nil) {
         SlideToApp(Previous([appstack lastObject]));
         [event setHandled:YES];
         ignore = YES;
