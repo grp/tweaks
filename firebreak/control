@@ -1,0 +1,15 @@
+Author: chpwn <support@chpwn.com>
+Maintainer: BigBoss <bigboss@thebigboss.org>
+Name: Full WebCLips
+Package: com.chpwn.firebreak
+Section: Tweaks
+Pre-Depends: firmware (>= 5.0)
+Depends: mobilesubstrate
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Enable panorama in the Camera app.
+Depiction: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=firebreakData
+Homepage: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=firebreakData
+Sponsor: thebigboss.org <http://thebigboss.org>
+Tag: purpose::extension
+dev: chpwn
