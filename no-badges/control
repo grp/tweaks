@@ -4,7 +4,8 @@ Name: No Badges
 Package: com.chpwn.no-badge
 Section: Tweaks
 Pre-Depends: firmware (>= 3.0)
-Version: 1.0
+Depends: mobilesubstrate
+Version: 1.0.2
 Architecture: iphoneos-arm
 Description: No badges. Ever.
 Depiction: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=nobadgesData
