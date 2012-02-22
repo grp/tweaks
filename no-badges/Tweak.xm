@@ -1,4 +1,6 @@
 
+#import <UIKit/UIKit.h>
+
 // iOS 4
 %hook SBIconBadge
 - (id)initWithBadgeString:(id)string { return nil; }
