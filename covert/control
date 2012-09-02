@@ -1,0 +1,14 @@
+Author: chpwn <support@chpwn.com>
+Maintainer: BigBoss <bigboss@thebigboss.org>
+Name: Covert
+Package: com.chpwn.covert
+Section: Tweaks
+Pre-Depends: firmware (>= 4.0)
+Depends: mobilesubstrate
+Version: 1.2.2
+Architecture: iphoneos-arm
+Description: Private browsing for Safari.
+Depiction: http://http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=covertDp
+Homepage: http://http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=covertDp
+Sponsor: thebigboss.org <http://thebigboss.org>
+dev: chpwn
