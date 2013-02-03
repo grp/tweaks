@@ -58,7 +58,7 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 	preferences = [[NSDictionary alloc] initWithContentsOfFile:PreferencesFilePath];
 }
 
-__attribute__((constructor)) static void internalizer_init() {
+__attribute__((constructor)) static void hookslaw_init() {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
     formatter = [[NSNumberFormatter alloc] init];
