@@ -1,0 +1,14 @@
+Author: chpwn <support@chpwn.com>
+Maintainer: BigBoss <bigboss@thebigboss.org>
+Name: %hook's law
+Package: com.chpwn.iphone.cydia.hooks-law
+Section: Tweaks
+Pre-Depends: firmware (>= 6.0)
+Depends: mobilesubstrate
+Version: 1.0
+Architecture: iphoneos-arm
+Description: Make everything a spring.
+Depiction: http://http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=hookslawDp
+Homepage: http://http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=hookslawDp
+Sponsor: thebigboss.org <http://thebigboss.org>
+dev: chpwn

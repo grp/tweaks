@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>entry</key>
+	<dict>
+		<key>cell</key>
+		<string>PSLinkCell</string>
+		<key>icon</key>
+		<string>hookslaw.png</string>
+		<key>label</key>
+		<string>%hook's law</string>
+	</dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Spring Constants</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.chpwn.iphone.cydia.hooks-law.preferences-changed</string>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>default</key>
+			<string>300</string>
+			<key>defaults</key>
+			<string>com.chpwn.iphone.cydia.hooks-law</string>
+			<key>key</key>
+			<string>Stiffness</string>
+			<key>label</key>
+			<string>Stiffness</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.chpwn.iphone.cydia.hooks-law.preferences-changed</string>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>default</key>
+			<string>30</string>
+			<key>defaults</key>
+			<string>com.chpwn.iphone.cydia.hooks-law</string>
+			<key>key</key>
+			<string>Damping</string>
+			<key>label</key>
+			<string>Damping</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.chpwn.iphone.cydia.hooks-law.preferences-changed</string>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>default</key>
+			<string>1</string>
+			<key>defaults</key>
+			<string>com.chpwn.iphone.cydia.hooks-law</string>
+			<key>key</key>
+			<string>Mass</string>
+			<key>label</key>
+			<string>Mass</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.chpwn.iphone.cydia.hooks-law.preferences-changed</string>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>default</key>
+			<string>20</string>
+			<key>defaults</key>
+			<string>com.chpwn.iphone.cydia.hooks-law</string>
+			<key>key</key>
+			<string>Velocity</string>
+			<key>label</key>
+			<string>Velocity</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.chpwn.iphone.cydia.hooks-law.preferences-changed</string>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>default</key>
+			<string>1.5</string>
+			<key>defaults</key>
+			<string>com.chpwn.iphone.cydia.hooks-law</string>
+			<key>key</key>
+			<string>TimeScale</string>
+			<key>label</key>
+			<string>Time Scale</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Copyright 2013 Xuzz Productions, LLC.</string>
+		</dict>
+	</array>
+	<key>title</key>
+	<string>%hook's law</string>
+</dict>
+</plist>
