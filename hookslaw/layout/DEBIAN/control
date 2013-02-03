@@ -4,7 +4,7 @@ Name: %hook's law
 Package: com.chpwn.iphone.cydia.hooks-law
 Section: Tweaks
 Pre-Depends: firmware (>= 6.0)
-Depends: mobilesubstrate
+Depends: mobilesubstrate, preferenceloader
 Version: 1.0
 Architecture: iphoneos-arm
 Description: Make everything a spring.
