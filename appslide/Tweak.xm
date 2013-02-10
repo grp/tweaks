@@ -10,6 +10,8 @@ static id fromapp = nil;
 static void SlideToApp(NSString *identifier) {
     id app = [[objc_getClass("SBApplicationController") sharedInstance] applicationWithDisplayIdentifier:identifier];
     [[objc_getClass("SBUIController") sharedInstance] activateApplicationFromSwitcher:app];
+        //and if there isn't some sort of delay here, the app just closes, instead of switching back to
+	[[objc_getClass("SBUIController") sharedInstance] performSelector:NSSelectorFromString(@"activateApplicationFromSwitcher:") withObject:app afterDelay:0.0];
 }
 
 static NSString *Previous(NSArray *element) {
@@ -35,7 +37,7 @@ static NSArray *Make(NSString *previous, NSString *next) {
 %hook SBUIController
 - (void)activateURLFromBulletinList:(id)bulletinList {
     // don't slide in from notification center widgets
-    enabled -= 1;
+    enabled -= 1;	
     %orig;
 }
 
@@ -57,6 +59,32 @@ static void begintransition(id from, id to) {
 }
 %end
 
+%hook SBAppToAppTransitionView
+
+- (void)_startAnimation
+{
+	%orig;
+}
+
+%end
+
+@interface SBAppToAppWorkspaceTransaction
+@property (nonatomic, assign) UIApplication *fromApp;
+@property (nonatomic, assign) UIApplication *toApplication;
+@end
+
+%hook SBAppToAppWorkspaceTransaction
+
+- (id)_setupAnimationFrom:(id)from to:(id)to
+{
+	//no idea why this is called twice... dafuq
+	if (from != nil || self.fromApp != nil)
+		begintransition(from, to);
+	%orig;
+}
+
+%end
+
 %hook SBAppDosadoView
 static BOOL transition(id self) {
     if (enabled <= 0) {
@@ -72,6 +100,7 @@ static BOOL transition(id self) {
 
     UIView *from = MSHookIvar<UIView *>(self, "_fromView");
     UIView *to = MSHookIvar<UIView *>(self, "_toView");
+
 
     BOOL downwards = NO;
 
@@ -131,7 +160,8 @@ static BOOL ignore = NO;
 - (void)stopIgnoring {
     ignore = NO;
 }
-- (void)activator:(id)activator receiveEvent:(id)event {
+- (void)activator:(id)activator receiveEvent:(id)event 
+{   
     if (ignore) {
         [event setHandled:YES];
         return;
@@ -140,8 +170,8 @@ static BOOL ignore = NO;
     if ([appstack count] > 0 && Previous([appstack lastObject]) != nil) {
         SlideToApp(Previous([appstack lastObject]));
         [event setHandled:YES];
-        ignore = YES;
-        [self performSelector:@selector(stopIgnoring) withObject:nil afterDelay:0.6f];
+        //ignore = YES;
+        //[self performSelector:@selector(stopIgnoring) withObject:nil afterDelay:0.6f];
     }
 }
 @end
