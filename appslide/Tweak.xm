@@ -1,4 +1,3 @@
-
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 
@@ -6,7 +5,6 @@ static int enabled = 1;
 static NSMutableArray *appstack = [[NSMutableArray alloc] init];
 static id toapp = nil;
 static id fromapp = nil;
-static BOOL needsActivatorWorkaround = NO;
 
 static void SlideToApp(NSString *identifier) {
     id app = [[objc_getClass("SBApplicationController") sharedInstance] applicationWithDisplayIdentifier:identifier];
@@ -35,21 +33,6 @@ static NSArray *Make(NSString *previous, NSString *next) {
 
 %hook SBUIController
 
-//Activator isn't cancelling the home button press when handled... no idea why
-- (BOOL)clickedMenuButton
-{
-	if (needsActivatorWorkaround)
-	{
-	    SlideToApp(Previous([appstack lastObject]));
-	    needsActivatorWorkaround = NO;
-		return YES;
-	}
-	else
-	{
-		return %orig;
-	}
-}	
-
 - (void)activateURLFromBulletinList:(id)bulletinList {
     // don't slide in from notification center widgets
     enabled -= 1;	
@@ -72,6 +55,17 @@ static void begintransition(id from, id to) {
     begintransition(from, to);
     %orig;
 }
+%end
+
+%hook SBBannerController
+//disable appslide when a "slid-up" app is already in view
+- (void)_handleBannerTapGesture:(id)arg1
+{
+	if (appstack.count > 0)
+		enabled -= 1;
+	%orig;
+}
+
 %end
 
 @interface SBAppToAppTransitionController
@@ -106,7 +100,6 @@ static BOOL transition(id self) {
         // or something equally weird like that.
         enabled = 1;
         [appstack removeAllObjects];
-		needsActivatorWorkaround = NO;
 	    return YES;
     }
 
@@ -120,7 +113,6 @@ static BOOL transition(id self) {
         downwards = YES;
     } else {
         [appstack addObject:Make([fromapp displayIdentifier], [toapp displayIdentifier])];
-        needsActivatorWorkaround = YES;
         downwards = NO;
     }
 
@@ -174,19 +166,16 @@ static BOOL ignore = NO;
 }
 - (void)activator:(id)activator receiveEvent:(id)event 
 {       
-	if (![[event name] isEqualToString:@"libactivator.menu.press.single"])
-	{
-    	if (ignore) {
-        	[event setHandled:YES];
-        	return;
-    	}
+    if (ignore) {
+        [event setHandled:YES];
+        return;
+    }
 
-    	if ([appstack count] > 0 && Previous([appstack lastObject]) != nil) {
-       		SlideToApp(Previous([appstack lastObject]));
-        	[event setHandled:YES];
-        	ignore = YES;
-        	[self performSelector:@selector(stopIgnoring) withObject:nil afterDelay:0.6f];
-    	}
+    if ([appstack count] > 0 && Previous([appstack lastObject]) != nil) {
+    	SlideToApp(Previous([appstack lastObject]));
+    	[event setHandled:YES];
+       	ignore = YES;
+	   	[self performSelector:@selector(stopIgnoring) withObject:nil afterDelay:0.6f];
     }
 }
 @end
@@ -200,10 +189,10 @@ __attribute__((constructor)) static void init() {
 
     // default to single home button press
     // single press is messed in iOS6, so hardcode activator menu single press action
-    /*id la = [objc_getClass("LAActivator") sharedInstance];
+    id la = [objc_getClass("LAActivator") sharedInstance];
     if ([la respondsToSelector:@selector(hasSeenListenerWithName:)] && [la respondsToSelector:@selector(assignEvent:toListenerWithName:)])
         if (![la hasSeenListenerWithName:@"com.chpwn.appslide"])
-            [la assignEvent:[objc_getClass("LAEvent") eventWithName:@"libactivator.menu.press.single"] toListenerWithName:@"com.chpwn.appslide"];*/
+            [la assignEvent:[objc_getClass("LAEvent") eventWithName:@"libactivator.menu.press.single"] toListenerWithName:@"com.chpwn.appslide"];
 
     // register our listener. do this after the above so it still hasn't "seen" us if this is first launch
     [[objc_getClass("LAActivator") sharedInstance] registerListener:listener forName:@"com.chpwn.appslide"];
