@@ -6,12 +6,13 @@ static int enabled = 1;
 static NSMutableArray *appstack = [[NSMutableArray alloc] init];
 static id toapp = nil;
 static id fromapp = nil;
+static BOOL needsActivatorWorkaround = NO;
 
 static void SlideToApp(NSString *identifier) {
     id app = [[objc_getClass("SBApplicationController") sharedInstance] applicationWithDisplayIdentifier:identifier];
     [[objc_getClass("SBUIController") sharedInstance] activateApplicationFromSwitcher:app];
         //and if there isn't some sort of delay here, the app just closes, instead of switching back to
-	[[objc_getClass("SBUIController") sharedInstance] performSelector:NSSelectorFromString(@"activateApplicationFromSwitcher:") withObject:app afterDelay:0.0];
+	//[[objc_getClass("SBUIController") sharedInstance] performSelector:NSSelectorFromString(@"activateApplicationFromSwitcher:") withObject:app afterDelay:0.0];
 }
 
 static NSString *Previous(NSArray *element) {
@@ -35,6 +36,22 @@ static NSArray *Make(NSString *previous, NSString *next) {
 %end
 
 %hook SBUIController
+
+//Activator isn't cancelling the home button press when handled... no idea why
+- (BOOL)clickedMenuButton
+{
+	if (needsActivatorWorkaround)
+	{
+	    SlideToApp(Previous([appstack lastObject]));
+	    needsActivatorWorkaround = NO;
+		return YES;
+	}
+	else
+	{
+		return %orig;
+	}
+}	
+
 - (void)activateURLFromBulletinList:(id)bulletinList {
     // don't slide in from notification center widgets
     enabled -= 1;	
@@ -59,27 +76,25 @@ static void begintransition(id from, id to) {
 }
 %end
 
-%hook SBAppToAppTransitionView
-
-- (void)_startAnimation
-{
-	%orig;
-}
-
-%end
-
-@interface SBAppToAppWorkspaceTransaction
-@property (nonatomic, assign) UIApplication *fromApp;
-@property (nonatomic, assign) UIApplication *toApplication;
+@interface SBAppToAppTransitionController
+- (UIApplication *)deactivatingApp;
+- (UIApplication *)activatingApp;
 @end
 
-%hook SBAppToAppWorkspaceTransaction
+%hook SBAppToAppTransitionController
 
-- (id)_setupAnimationFrom:(id)from to:(id)to
-{
-	//no idea why this is called twice... dafuq
-	if (from != nil || self.fromApp != nil)
-		begintransition(from, to);
+- (void)_startAnimation
+{	
+	if (self.activatingApp != nil && self.deactivatingApp != nil)
+	{
+		fromapp = self.deactivatingApp;
+		toapp = self.activatingApp;		
+	}
+	else
+	{
+		enabled -= 1;
+	}	
+	
 	%orig;
 }
 
@@ -91,16 +106,14 @@ static BOOL transition(id self) {
         // after a non-enabled transition, drop all
         // state so we don't try and go back from that
         // or something equally weird like that.
-
         enabled = 1;
         [appstack removeAllObjects];
-
-        return YES;
+		needsActivatorWorkaround = NO;
+	    return YES;
     }
 
     UIView *from = MSHookIvar<UIView *>(self, "_fromView");
     UIView *to = MSHookIvar<UIView *>(self, "_toView");
-
 
     BOOL downwards = NO;
 
@@ -109,6 +122,7 @@ static BOOL transition(id self) {
         downwards = YES;
     } else {
         [appstack addObject:Make([fromapp displayIdentifier], [toapp displayIdentifier])];
+        needsActivatorWorkaround = YES;
         downwards = NO;
     }
 
@@ -161,17 +175,20 @@ static BOOL ignore = NO;
     ignore = NO;
 }
 - (void)activator:(id)activator receiveEvent:(id)event 
-{   
-    if (ignore) {
-        [event setHandled:YES];
-        return;
-    }
+{       
+	if (![[event name] isEqualToString:@"libactivator.menu.press.single"])
+	{
+    	if (ignore) {
+        	[event setHandled:YES];
+        	return;
+    	}
 
-    if ([appstack count] > 0 && Previous([appstack lastObject]) != nil) {
-        SlideToApp(Previous([appstack lastObject]));
-        [event setHandled:YES];
-        //ignore = YES;
-        //[self performSelector:@selector(stopIgnoring) withObject:nil afterDelay:0.6f];
+    	if ([appstack count] > 0 && Previous([appstack lastObject]) != nil) {
+       		SlideToApp(Previous([appstack lastObject]));
+        	[event setHandled:YES];
+        	ignore = YES;
+        	[self performSelector:@selector(stopIgnoring) withObject:nil afterDelay:0.6f];
+    	}
     }
 }
 @end
@@ -184,10 +201,11 @@ __attribute__((constructor)) static void init() {
     listener = [[AppSlideActivator alloc] init];
 
     // default to single home button press
-    id la = [objc_getClass("LAActivator") sharedInstance];
+    // single press is messed in iOS6, so hardcode activator action
+    /*id la = [objc_getClass("LAActivator") sharedInstance];
     if ([la respondsToSelector:@selector(hasSeenListenerWithName:)] && [la respondsToSelector:@selector(assignEvent:toListenerWithName:)])
         if (![la hasSeenListenerWithName:@"com.chpwn.appslide"])
-            [la assignEvent:[objc_getClass("LAEvent") eventWithName:@"libactivator.menu.press.single"] toListenerWithName:@"com.chpwn.appslide"];
+            [la assignEvent:[objc_getClass("LAEvent") eventWithName:@"libactivator.menu.press.single"] toListenerWithName:@"com.chpwn.appslide"];*/
 
     // register our listener. do this after the above so it still hasn't "seen" us if this is first launch
     [[objc_getClass("LAActivator") sharedInstance] registerListener:listener forName:@"com.chpwn.appslide"];
