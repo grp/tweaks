@@ -11,8 +11,6 @@ static BOOL needsActivatorWorkaround = NO;
 static void SlideToApp(NSString *identifier) {
     id app = [[objc_getClass("SBApplicationController") sharedInstance] applicationWithDisplayIdentifier:identifier];
     [[objc_getClass("SBUIController") sharedInstance] activateApplicationFromSwitcher:app];
-        //and if there isn't some sort of delay here, the app just closes, instead of switching back to
-	//[[objc_getClass("SBUIController") sharedInstance] performSelector:NSSelectorFromString(@"activateApplicationFromSwitcher:") withObject:app afterDelay:0.0];
 }
 
 static NSString *Previous(NSArray *element) {
@@ -82,7 +80,7 @@ static void begintransition(id from, id to) {
 @end
 
 %hook SBAppToAppTransitionController
-
+//iOS 6 fix. _beginAppToAppTransition:to: and _beginTransitionFromApp:toApp: do not exist anymore
 - (void)_startAnimation
 {	
 	if (self.activatingApp != nil && self.deactivatingApp != nil)
@@ -201,7 +199,7 @@ __attribute__((constructor)) static void init() {
     listener = [[AppSlideActivator alloc] init];
 
     // default to single home button press
-    // single press is messed in iOS6, so hardcode activator action
+    // single press is messed in iOS6, so hardcode activator menu single press action
     /*id la = [objc_getClass("LAActivator") sharedInstance];
     if ([la respondsToSelector:@selector(hasSeenListenerWithName:)] && [la respondsToSelector:@selector(assignEvent:toListenerWithName:)])
         if (![la hasSeenListenerWithName:@"com.chpwn.appslide"])
