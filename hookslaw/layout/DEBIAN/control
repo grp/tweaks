@@ -5,7 +5,7 @@ Package: com.chpwn.iphone.cydia.hooks-law
 Section: Tweaks
 Pre-Depends: firmware (>= 6.0)
 Depends: mobilesubstrate, preferenceloader
-Version: 1.0
+Version: 1.0.1
 Architecture: iphoneos-arm
 Description: Make everything a spring.
 Depiction: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=hookslawDp

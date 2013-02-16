@@ -21,7 +21,11 @@ static CGFloat PreferencesFloat(NSString *key, CGFloat def) {
         NSNumber *n = [formatter numberFromString:s];
 
         if (n != nil) {
-            return [n floatValue];
+            CGFloat f = [n floatValue];
+
+            if (f > 0) {
+                return f;
+            }
         }
     }
 
