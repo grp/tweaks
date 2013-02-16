@@ -24,18 +24,20 @@ static NSArray *Make(NSString *previous, NSString *next) {
 }
 
 %hook SBAppSwitcherController
+
 - (void)iconTapped:(id)icon {
     // don't slide if you tapped it in the switcher
     enabled -= 1;
     %orig;
 }
+
 %end
 
 %hook SBUIController
 
 - (void)activateURLFromBulletinList:(id)bulletinList {
     // don't slide in from notification center widgets
-    enabled -= 1;	
+    enabled -= 1;
     %orig;
 }
 
@@ -57,42 +59,40 @@ static void begintransition(id from, id to) {
 }
 %end
 
-%hook SBBannerController
-//disable appslide when a "slid-up" app is already in view
-- (void)_handleBannerTapGesture:(id)arg1
-{
-	if (appstack.count > 0)
-		enabled -= 1;
-	%orig;
-}
-
-%end
-
 @interface SBAppToAppTransitionController
 - (UIApplication *)deactivatingApp;
 - (UIApplication *)activatingApp;
 @end
 
+// iOS 6+
 %hook SBAppToAppTransitionController
-//iOS 6 fix. _beginAppToAppTransition:to: and _beginTransitionFromApp:toApp: do not exist anymore
-- (void)_startAnimation
-{	
-	if (self.activatingApp != nil && self.deactivatingApp != nil)
-	{
+
+- (void)_startAnimation {
+	if (self.activatingApp != nil && self.deactivatingApp != nil) {
 		fromapp = self.deactivatingApp;
-		toapp = self.activatingApp;		
-	}
-	else
-	{
+		toapp = self.activatingApp;
+	} else {
 		enabled -= 1;
-	}	
-	
+	}
+
 	%orig;
 }
 
 %end
 
-%hook SBAppDosadoView
+%hook SBBannerController
+
+// disable when a "slid-up" app is already in view
+- (void)_handleBannerTapGesture:(id)gesture {
+	if (appstack.count > 0) {
+		enabled -= 1;
+    }
+
+	%orig;
+}
+
+%end
+
 static BOOL transition(id self) {
     if (enabled <= 0) {
         // after a non-enabled transition, drop all
@@ -145,12 +145,17 @@ static BOOL transition(id self) {
 
     return NO;
 }
+
+%hook SBAppDosadoView
+
 - (void)beginTransition {
     if (transition(self)) %orig;
 }
+
 - (void)_beginTransition {
     if (transition(self)) %orig;
 }
+
 %end
 
 // workaround some weird activator bug where it gives me
@@ -161,21 +166,22 @@ static BOOL ignore = NO;
 @end
 
 @implementation AppSlideActivator
+
 - (void)stopIgnoring {
     ignore = NO;
 }
-- (void)activator:(id)activator receiveEvent:(id)event 
-{       
+
+- (void)activator:(id)activator receiveEvent:(id)event {
     if (ignore) {
         [event setHandled:YES];
         return;
     }
 
     if ([appstack count] > 0 && Previous([appstack lastObject]) != nil) {
-    	SlideToApp(Previous([appstack lastObject]));
-    	[event setHandled:YES];
-       	ignore = YES;
-	   	[self performSelector:@selector(stopIgnoring) withObject:nil afterDelay:0.6f];
+        SlideToApp(Previous([appstack lastObject]));
+        [event setHandled:YES];
+        ignore = YES;
+        [self performSelector:@selector(stopIgnoring) withObject:nil afterDelay:0.6f];
     }
 }
 @end
@@ -190,9 +196,11 @@ __attribute__((constructor)) static void init() {
     // default to single home button press
     // single press is messed in iOS6, so hardcode activator menu single press action
     id la = [objc_getClass("LAActivator") sharedInstance];
-    if ([la respondsToSelector:@selector(hasSeenListenerWithName:)] && [la respondsToSelector:@selector(assignEvent:toListenerWithName:)])
-        if (![la hasSeenListenerWithName:@"com.chpwn.appslide"])
+    if ([la respondsToSelector:@selector(hasSeenListenerWithName:)] && [la respondsToSelector:@selector(assignEvent:toListenerWithName:)]) {
+        if (![la hasSeenListenerWithName:@"com.chpwn.appslide"]) {
             [la assignEvent:[objc_getClass("LAEvent") eventWithName:@"libactivator.menu.press.single"] toListenerWithName:@"com.chpwn.appslide"];
+        }
+    }
 
     // register our listener. do this after the above so it still hasn't "seen" us if this is first launch
     [[objc_getClass("LAActivator") sharedInstance] registerListener:listener forName:@"com.chpwn.appslide"];
